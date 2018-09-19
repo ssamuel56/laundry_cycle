@@ -47,7 +47,7 @@ def second_quarter(quarter_two)
 end
 
 def third_quarter(quarter_three)
-  if quarter_three >= 3
+  if quarter_three >= 4
     play chord(:D3, :minor)
     sleep 1
     play chord(:E3, :minor)
@@ -56,7 +56,7 @@ def third_quarter(quarter_three)
   else
     play chord(:E3, :minor)
     sleep 1
-    play chord(:G4, :minor)
+    play chord(:G2, :minor)
     sleep 0.5
     play chord(:A3, :minor)
     sleep 1.5
@@ -64,22 +64,35 @@ def third_quarter(quarter_three)
   end
 end
 
-live_loop :scale do
-  4.times do
-    play scale(:e3, :minor).tick
-    sleep 0.5
-  end
+def fourth_quarter
+  play chord(:G3, :minor7)
+  sleep 1
+  play chord(:A3,:minor)
+  sleep 2
+  play chord(:E3, :minor)
 end
 
-live_loop :kick, sync: :scale do
-  4.times do
-    sample :bd_haus
-    sleep 1
-  end
-end
 
-4.times  do
-  play first_quarter(1)
-  play second_quarter(1)
-  play third_quarter(1)
+
+1.times do
+  live_loop :scale do
+    4.times do
+      play scale(:e3, :minor).tick
+      sleep 0.5
+    end
+  end
+  
+  live_loop :kick, sync: :scale do
+    4.times do
+      sample :bd_haus
+      sleep 1
+    end
+  end
+  
+  4.times do
+    play first_quarter(1)
+    play second_quarter(1)
+    play third_quarter(1)
+    play fourth_quarter
+  end
 end
