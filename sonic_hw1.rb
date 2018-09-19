@@ -1,51 +1,85 @@
 use_bpm 110
 
-def football_game(first_quarter)
-  if first_quarter >= 3
+def band_show
+  sleep 0.5
+  sample :drum_cymbal_soft
+  sleep 0.5
+  sample :drum_cymbal_soft
+  sleep 0.5
+  sample :drum_cymbal_soft
+  sleep 0.5
+  sample :drum_cymbal_soft
+  sleep 0.5
+  sample :drum_cymbal_soft
+  sleep 0.5
+  sample :drum_cymbal_soft
+end
+
+
+def first_quarter(quarter_one)
+  if quarter_one >= 2
     play chord(:E3, :minor7)
     sleep 2
-    play chord(:A3, :major)
+    play chord(:A3, :minor)
     sleep 2
-    
   else
     play chord(:E3, :minor)
     sleep 2
-    play chord(:A3, :major)
+    play chord(:A3, :minor)
     sleep 2
-    football_game(first_quarter + 1)
+    first_quarter(quarter_one + 1)
   end
 end
 
-def band_show(first_half)
-  if first_half <= 2
+def second_quarter(quarter_two)
+  if quarter_two >= 3
+    play chord(:D3, :minor)
+    sleep 1
+    play chord(:E3, :minor)
     sleep 0.5
-    sample :drum_cymbal_soft
-    sleep 0.5
-    sample :drum_cymbal_soft
-    sleep 0.5
-    sample :drum_cymbal_soft
-    sleep 0.5
-    sample :drum_cymbal_soft
-    sleep 0.5
-    sample :drum_cymbal_soft
-    sleep 0.5
-    sample :drum_cymbal_soft
-    sleep 0.5
-    sample :drum_cymbal_soft
+    play chord(:A3, :minor)
+    sleep 1.5
   else
-    sample :bass_hit_c
+    play band_show
+    sleep 3
+    second_quarter(quarter_two + 1)
+  end
+end
+
+def third_quarter(quarter_three)
+  if quarter_three >= 3
+    play chord(:D3, :minor)
     sleep 1
-    sample :bass_hit_c
+    play chord(:E3, :minor)
     sleep 1
-    sample :bass_hit_c
+    play chord(:G3, :minor)
+  else
+    play chord(:E3, :minor)
     sleep 1
-    sample :bass_hit_c
+    play chord(:G4, :minor)
+    sleep 0.5
+    play chord(:A3, :minor)
+    sleep 1.5
+    third_quarter(quarter_three + 1)
+  end
+end
+
+live_loop :scale do
+  4.times do
+    play scale(:e3, :minor).tick
+    sleep 0.5
+  end
+end
+
+live_loop :kick, sync: :scale do
+  4.times do
+    sample :bd_haus
     sleep 1
-    band_show(first_half + 1)
   end
 end
 
 4.times  do
-  play football_game(1)
-  play band_show(1)
+  play first_quarter(1)
+  play second_quarter(1)
+  play third_quarter(1)
 end
